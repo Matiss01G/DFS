@@ -1,0 +1,5 @@
+if(EXISTS "/home/runner/DFS/build/tests/dfs_tests[1]_tests.cmake")
+  include("/home/runner/DFS/build/tests/dfs_tests[1]_tests.cmake")
+else()
+  add_test(dfs_tests_NOT_BUILT dfs_tests_NOT_BUILT)
+endif()
