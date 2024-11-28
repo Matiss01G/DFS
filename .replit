@@ -1,8 +1,7 @@
 compile = "make -s"
-
 run = "./main"
-entrypoint = "main.cpp"
 hidden = ["main", "**/*.o", "**/*.d", ".ccls-cache", "Makefile"]
+modules = ["cpp-clang14", "c-clang14", "nodejs-20"]
 
 [nix]
 channel = "stable-24_05"
@@ -79,3 +78,7 @@ externalPort = 80
 [[ports]]
 localPort = 3001
 externalPort = 3001
+
+[deployment]
+run = ["sh", "-c", "./main"]
+build = ["sh", "-c", "make -s"]
