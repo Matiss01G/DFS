@@ -32,7 +32,7 @@ struct StoreOpts {
 struct ReadResults {
   std::int64_t size = 0;
   std::unique_ptr<std::istream> stream;
-  bool valid() const {return stream != nullprt;}
+  bool valid() const {return stream != nullptr;}
 };
 
 class Store {
@@ -44,7 +44,7 @@ public:
                     std::istream &data);
 
   // read data from file sys into stream.
-  Read(const std::string &id, const std::string &key);
+  ReadResults Read(const std::string &id, const std::string &key);
 
   // check if a file exists
   bool Has(const std::string &id, const std::string &key) const;

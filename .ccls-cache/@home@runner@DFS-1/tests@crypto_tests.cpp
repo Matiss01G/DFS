@@ -9,6 +9,7 @@
  * However, for this basic implementation, we're focusing on
  * core functionality verification.
  */
+
 #include "crypto/crypto_utils.h"
 #include <algorithm>
 #include <gtest/gtest.h>
