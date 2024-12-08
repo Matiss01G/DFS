@@ -13,7 +13,9 @@
 #pragma once
 
 #include "network/channel.h"
+#include "network/peer.h"
 #include "network/message.h"
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -38,6 +40,8 @@ public:
 
   // Closes the transport and all active connections
   virtual bool Close() = 0;
+
+  virtual void setOnPeer(std::function<void(std::shared_ptr<Peer>)> callback) = 0;
 };
 
 } // namespace network

@@ -36,6 +36,9 @@ public:
   void WaitForStream();
   boost::asio::ip::tcp::socket& socket() { return socket_; }
 
+  bool WriteStream(boost::asio::streambuf& buffer) override;
+  bool ReadStream(std::ostream& out, size_t bytes) override;
+
 private:
   boost::asio::ip::tcp::socket socket_;
   bool outbound_;               // true if we initiate connection

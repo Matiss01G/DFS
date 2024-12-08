@@ -10,23 +10,29 @@ Store::Store(StoreOpts opts) : opts_(std::move(opts)) {
   std::filesystem::create_directories(opts_.root);
 }
 
-// writes data from input stream to a file in the store
-// returns number of bytes written or -1 for error
-std::int64_t Store::Write(const std::string &id, const std::string &key,
+std::int64_t Store::Write(const std::string &id, const std::string &hashedKey,
                           std::istream &data) {
-  // transform key into path using configured pathTransformFunc
+  // Create PathKey directly from hashed key without additional hashing
+  PathKey pathKey(hashedKey, hashedKey);
+  return WriteHelp(id, pathKey, data);
+}
+
+std::int64_t Store::HashAndWrite(const std::string &id, const std::string &key,
+                                 std::istream &data) {
+  // Use path transform function which includes hashing
   PathKey pathKey = opts_.pathTransformFunc(key);
+  return WriteHelp(id, pathKey, data);
+}
 
-  // get full path, including root directory and node ID
+// Common implementation for both write methods
+std::int64_t Store::WriteHelp(const std::string &id, const PathKey &pathKey,
+                              std::istream &data) {
   auto fullPath = getFullPath(id, pathKey);
-
-  // open file for writing, creating directories as needed                                                                      
   auto outFile = openFileForWriting(fullPath);
   if (!outFile || !outFile->is_open()) {
     return -1;
   }
 
-  // copy data from input stream into file using buffered I/O for efficiency
   std::int64_t bytesWritten = 0;
   char buffer[8192];
   while (data.read(buffer, sizeof(buffer))) {
@@ -34,30 +40,28 @@ std::int64_t Store::Write(const std::string &id, const std::string &key,
     outFile->write(buffer, data.gcount());
   }
 
-  // handle any remaining bytes (last chunk might be smaller than buffer)
   if (data.gcount() > 0) {
     bytesWritten += data.gcount();
     outFile->write(buffer, data.gcount());
   }
-
   return bytesWritten;
 }
 
 // Reads a file from the store
-ReadResults Store::Read(const std::string& id, const std::string& key) {
-    ReadResults result;
+ReadResults Store::Read(const std::string &id, const std::string &key) {
+  ReadResults result;
 
-    PathKey pathKey = opts_.pathTransformFunc(key);
-    auto fullPath = getFullPath(id, pathKey);
+  PathKey pathKey = opts_.pathTransformFunc(key);
+  auto fullPath = getFullPath(id, pathKey);
 
-    if (!std::filesystem::exists(fullPath)) {
-        return result;
-    }
-
-    result.size = std::filesystem::file_size(fullPath);
-    result.stream = std::make_unique<std::ifstream>(fullPath, std::ios::binary);
-
+  if (!std::filesystem::exists(fullPath)) {
     return result;
+  }
+
+  result.size = std::filesystem::file_size(fullPath);
+  result.stream = std::make_unique<std::ifstream>(fullPath, std::ios::binary);
+
+  return result;
 }
 
 // checks if a file exists in the store
@@ -71,7 +75,8 @@ bool Store::Delete(const std::string &id, const std::string &key) {
   PathKey pathKey = opts_.pathTransformFunc(key);
 
   // get the first directory in the path to remove entire subtree
-  auto firstDir = std::filesystem::path(opts_.root) / id / pathKey.firstPathName();
+  auto firstDir =
+      std::filesystem::path(opts_.root) / id / pathKey.firstPathName();
 
   std::error_code ec;
   return std::filesystem::remove_all(firstDir, ec) > 0;

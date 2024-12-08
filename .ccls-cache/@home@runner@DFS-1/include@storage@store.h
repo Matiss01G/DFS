@@ -32,16 +32,20 @@ struct StoreOpts {
 struct ReadResults {
   std::int64_t size = 0;
   std::unique_ptr<std::istream> stream;
-  bool valid() const {return stream != nullptr;}
+  bool valid() const { return stream != nullptr; }
 };
 
 class Store {
 public:
   explicit Store(StoreOpts opts = StoreOpts{});
 
-  // write data from stream to file system
-  std::int64_t Write(const std::string &id, const std::string &key,
-                    std::istream &data);
+  // Write pre-hashed key directly to storage without hashing
+  std::int64_t Write(const std::string &id, const std::string &hashedKey,
+                     std::istream &data);
+
+  // Hash the key first, then write to storage
+  std::int64_t HashAndWrite(const std::string &id, const std::string &key,
+                            std::istream &data);
 
   // read data from file sys into stream.
   ReadResults Read(const std::string &id, const std::string &key);
@@ -57,6 +61,10 @@ public:
 
 private:
   StoreOpts opts_;
+
+  // Helper method for common write operations
+  std::int64_t WriteHelp(const std::string &id, const PathKey &pathKey,
+                         std::istream &data);
 
   // construct full path for a file, including root directory
   std::filesystem::path getFullPath(const std::string &id,

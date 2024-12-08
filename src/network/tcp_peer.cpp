@@ -6,40 +6,40 @@ namespace network {
 
 // takes pre-connected socket and flag indicating inbound/outbound
 TCPPeer::TCPPeer(boost::asio::ip::tcp::socket socket, bool outbound)
-  : socket_(std::move(socket)) // takes ownership of socket
-  , outbound_(outbound)
-  {}
+    : socket_(std::move(socket)) // takes ownership of socket
+      ,
+      outbound_(outbound) {}
 
 // sends raw data to peer over tcp connection
 // while data vector must be sent - partial sends not supported
-bool TCPPeer::Send(const std::vector<uint8_t>& data){
-  try{
+bool TCPPeer::Send(const std::vector<uint8_t> &data) {
+  try {
     boost::system::error_code ec;
     boost::asio::write(socket_, boost::asio::buffer(data), ec);
     return !ec;
-  } catch (const boost::system::system_error& e){
+  } catch (const boost::system::system_error &e) {
     return false;
   }
 }
 
-// marks the end of a stream operation 
-void TCPPeer::CloseStream(){
+// marks the end of a stream operation
+void TCPPeer::CloseStream() {
   {
-  std::lock_guard<std::mutex> lock(stream_mutex_);
-  stream_complete_ = true;
+    std::lock_guard<std::mutex> lock(stream_mutex_);
+    stream_complete_ = true;
   }
   // wake up any threads waiting for stream completion
   stream_cv_.notify_all();
 }
 
 // marks start of new operation
-void TCPPeer::StartStream(){
+void TCPPeer::StartStream() {
   std::lock_guard<std::mutex> lock(stream_mutex_);
   stream_complete_ = false;
 }
 
 // blocks calling thread until current stream operation is complete
-void TCPPeer::WaitForStream(){
+void TCPPeer::WaitForStream() {
   std::unique_lock<std::mutex> lock(stream_mutex_);
   stream_cv_.wait(lock, [this]() { return stream_complete_; });
 }
@@ -48,12 +48,32 @@ void TCPPeer::WaitForStream(){
 // returns empty string if error occurs
 std::string TCPPeer::RemoteAddr() const {
   try {
-    return socket_.remote_endpoint().address().to_string() + ":" +  
+    return socket_.remote_endpoint().address().to_string() + ":" +
            std::to_string(socket_.remote_endpoint().port());
-  } catch (const boost::system::system_error& e) {
+  } catch (const boost::system::system_error &e) {
     return "";
   }
 }
 
+bool TCPPeer::WriteStream(boost::asio::streambuf &buffer) {
+  try {
+    boost::asio::write(socket_, buffer);
+    return true;
+  } catch (const boost::system::system_error &e) {
+    return false;
+  }
 }
-}  
+
+bool TCPPeer::ReadStream(std::ostream &out, size_t bytes) {
+  try {
+    std::vector<char> temp(bytes);
+    size_t n = boost::asio::read(socket_, boost::asio::buffer(temp, bytes));
+    out.write(temp.data(), n);
+    return true;
+  } catch (const boost::system::system_error &e) {
+    return false;
+  }
+}
+
+} // namespace network
+} // namespace dfs

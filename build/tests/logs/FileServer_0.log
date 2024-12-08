@@ -1,0 +1,83 @@
+[2024-Dec-08 03:02:20.282714] [FileServer] [info] Initializing FileServer...
+[2024-Dec-08 03:02:20.282951] [FileServer] [debug] Generated new server ID: E6D036AE2979B6D660BA3465EA9266AA55D803D06B393FF3820A048BEB20D5DE
+[2024-Dec-08 03:02:20.283140] [FileServer] [debug] Initializing storage with root directory: test_storage_13001
+[2024-Dec-08 03:02:20.283194] [FileServer] [debug] Setting up transport callbacks
+[2024-Dec-08 03:02:20.283237] [FileServer] [info] FileServer initialization complete
+[2024-Dec-08 03:02:20.283282] [FileServer] [info] [0.0.0.0:58124] Starting fileserver...
+[2024-Dec-08 03:02:20.283882] [FileServer] [debug] Server state changed to running
+[2024-Dec-08 03:02:20.283973] [FileServer] [info] Starting network bootstrap process
+[2024-Dec-08 03:02:20.284153] [FileServer] [info] Bootstrap process initiated for 1 nodes
+[2024-Dec-08 03:02:20.284228] [FileServer] [info] Server startup complete
+[2024-Dec-08 03:02:20.284325] [FileServer] [info] [0.0.0.0:58124] Attempting to connect with remote 127.0.0.1:58123
+[2024-Dec-08 03:02:20.284531] [FileServer] [debug] [0.0.0.0:58124] OnPeer called for 127.0.0.1:58123
+[2024-Dec-08 03:02:20.284602] [FileServer] [debug] [0.0.0.0:58124] Adding peer 127.0.0.1:58123 to peers map
+[2024-Dec-08 03:02:20.284711] [FileServer] [info] [0.0.0.0:58124] Connected with remote 127.0.0.1:58123
+[2024-Dec-08 03:02:20.284753] [FileServer] [debug] [0.0.0.0:58124] Total peers: 1
+[2024-Dec-08 03:02:20.284842] [FileServer] [info] Successfully connected to bootstrap node: 127.0.0.1:58123
+[2024-Dec-08 03:02:20.284942] [FileServer] [debug] Message processing loop started
+[2024-Dec-08 03:02:20.285051] [FileServer] [info] Message loop started
+[2024-Dec-08 03:02:20.285652] [FileServer] [debug] [0.0.0.0:58123] OnPeer called for 127.0.0.1:41674
+[2024-Dec-08 03:02:20.285755] [FileServer] [debug] [0.0.0.0:58123] Adding peer 127.0.0.1:41674 to peers map
+[2024-Dec-08 03:02:20.285865] [FileServer] [info] [0.0.0.0:58123] Connected with remote 127.0.0.1:41674
+[2024-Dec-08 03:02:20.285940] [FileServer] [debug] [0.0.0.0:58123] Total peers: 1
+[2024-Dec-08 03:02:21.284390] [FileServer] [info] [0.0.0.0:58123] Storing file with key: distributed_test.txt and hashed key: F20225831A702328AB316A3F79F3E735
+[2024-Dec-08 03:02:21.284498] [FileServer] [debug] Input stream state - good: true, eof: false, fail: false
+[2024-Dec-08 03:02:21.284547] [FileServer] [debug] Buffered data size: 32 bytes
+[2024-Dec-08 03:02:21.284966] [FileServer] [debug] Successfully wrote 32 bytes to local store
+[2024-Dec-08 03:02:21.285102] [FileServer] [debug] Broadcasting store message to peers
+[2024-Dec-08 03:02:21.285165] [FileServer] [debug] Broadcasting message to 1 peers
+[2024-Dec-08 03:02:21.285217] [FileServer] [debug] Preparing to send to peer: 127.0.0.1:41674
+[2024-Dec-08 03:02:21.285284] [FileServer] [debug] Sending message type signal to 127.0.0.1:41674
+[2024-Dec-08 03:02:21.285374] [FileServer] [debug] Sending payload size (145 bytes) to 127.0.0.1:41674
+[2024-Dec-08 03:02:21.285453] [FileServer] [debug] Sending payload to 127.0.0.1:41674
+[2024-Dec-08 03:02:21.285602] [FileServer] [debug] Successfully sent message to peer: 127.0.0.1:41674
+[2024-Dec-08 03:02:21.285668] [FileServer] [info] Broadcast complete
+[2024-Dec-08 03:02:21.285777] [FileServer] [debug] Processing message from: 127.0.0.1:58123 size: 145 bytes
+[2024-Dec-08 03:02:21.285901] [FileServer] [debug] Decoded message type: 0
+[2024-Dec-08 03:02:21.285977] [FileServer] [debug] Handling message from 127.0.0.1:58123 of type 0
+[2024-Dec-08 03:02:21.286121] [FileServer] [debug] Processing StoreFile message
+[2024-Dec-08 03:02:21.286163] [FileServer] [debug] Handling store file request from 127.0.0.1:58123
+[2024-Dec-08 03:02:21.286224] [FileServer] [debug] [0.0.0.0:58124] Store file details - ID: 134456BE9384CF266D6250263376EA426712D2D076370FAA5CBC15FA894AA9C6, Key: F20225831A702328AB316A3F79F3E735, Size: 48 bytes
+[2024-Dec-08 03:02:21.286289] [FileServer] [debug] Reading encrypted data from network
+[2024-Dec-08 03:02:21.290776] [FileServer] [debug] Added peer 127.0.0.1:41674 for replication
+[2024-Dec-08 03:02:21.290838] [FileServer] [debug] Starting file replication to 1 peers
+[2024-Dec-08 03:02:21.290880] [FileServer] [debug] Sending stream start signal to 127.0.0.1:41674
+[2024-Dec-08 03:02:21.290945] [FileServer] [debug] Starting encryption of -1 bytes
+[2024-Dec-08 03:02:21.291084] [FileServer] [debug] Successfully encrypted 16 bytes
+[2024-Dec-08 03:02:21.291249] [FileServer] [debug] Sending encrypted data to peer 127.0.0.1:41674
+[2024-Dec-08 03:02:21.291453] [FileServer] [debug] Successfully replicated to 127.0.0.1:41674
+[2024-Dec-08 03:02:21.291585] [FileServer] [info] File replication complete. Successfully replicated to 1/1 peers
+[2024-Dec-08 03:02:26.291719] [FileServer] [debug] [0.0.0.0:58124] Get request for key: distributed_test.txt
+[2024-Dec-08 03:02:26.291883] [FileServer] [info] [0.0.0.0:58124] Don't have file (distributed_test.txt) locally, fetching from network...
+[2024-Dec-08 03:02:26.291967] [FileServer] [debug] Broadcasting get request to network
+[2024-Dec-08 03:02:26.292056] [FileServer] [debug] Broadcasting message to 1 peers
+[2024-Dec-08 03:02:26.292097] [FileServer] [debug] Preparing to send to peer: 127.0.0.1:58123
+[2024-Dec-08 03:02:26.292141] [FileServer] [debug] Sending message type signal to 127.0.0.1:58123
+[2024-Dec-08 03:02:26.292211] [FileServer] [debug] Sending payload size (135 bytes) to 127.0.0.1:58123
+[2024-Dec-08 03:02:26.292276] [FileServer] [debug] Sending payload to 127.0.0.1:58123
+[2024-Dec-08 03:02:26.292343] [FileServer] [debug] Successfully sent message to peer: 127.0.0.1:58123
+[2024-Dec-08 03:02:26.292379] [FileServer] [info] Broadcast complete
+[2024-Dec-08 03:02:26.292424] [FileServer] [debug] Waiting for network responses
+[2024-Dec-08 03:02:26.387238] [FileServer] [debug] Processing message from: 127.0.0.1:41674 size: 135 bytes
+[2024-Dec-08 03:02:26.387405] [FileServer] [debug] Decoded message type: 1
+[2024-Dec-08 03:02:26.387483] [FileServer] [debug] Handling message from 127.0.0.1:41674 of type 1
+[2024-Dec-08 03:02:26.387536] [FileServer] [debug] Processing GetFile message
+[2024-Dec-08 03:02:26.387601] [FileServer] [debug] Handling get file request from 127.0.0.1:41674
+[2024-Dec-08 03:02:26.387676] [FileServer] [debug] [0.0.0.0:58123] Get file details - ID: E6D036AE2979B6D660BA3465EA9266AA55D803D06B393FF3820A048BEB20D5DE, Key: F20225831A702328AB316A3F79F3E735
+[2024-Dec-08 03:02:26.387790] [FileServer] [warning] [0.0.0.0:58123] Requested file (F20225831A702328AB316A3F79F3E735) not found in local store
+[2024-Dec-08 03:02:26.792630] [FileServer] [warning] [0.0.0.0:58124] File not found in network: distributed_test.txt
+[2024-Dec-08 03:02:26.792809] [FileServer] [debug] FileServer destructor called
+[2024-Dec-08 03:02:26.792864] [FileServer] [debug] [0.0.0.0:58124] Stop called
+[2024-Dec-08 03:02:26.792926] [FileServer] [debug] Server state changed to stopped
+[2024-Dec-08 03:02:26.792974] [FileServer] [debug] [0.0.0.0:58124] Joining message loop thread
+e: 1
+[2024-Dec-08 03:02:26.387483] [FileServer] [debug] Handling message from 127.0.0.1:41674 of type 1
+[2024-Dec-08 03:02:26.387536] [FileServer] [debug] Processing GetFile message
+[2024-Dec-08 03:02:26.387601] [FileServer] [debug] Handling get file request from 127.0.0.1:41674
+[2024-Dec-08 03:02:26.387676] [FileServer] [debug] [0.0.0.0:58123] Get file details - ID: E6D036AE2979B6D660BA3465EA9266AA55D803D06B393FF3820A048BEB20D5DE, Key: F20225831A702328AB316A3F79F3E735
+[2024-Dec-08 03:02:26.387790] [FileServer] [warning] [0.0.0.0:58123] Requested file (F20225831A702328AB316A3F79F3E735) not found in local store
+[2024-Dec-08 03:02:26.792630] [FileServer] [warning] [0.0.0.0:58124] File not found in network: distributed_test.txt
+[2024-Dec-08 03:02:26.792809] [FileServer] [debug] FileServer destructor called
+[2024-Dec-08 03:02:26.792864] [FileServer] [debug] [0.0.0.0:58124] Stop called
+[2024-Dec-08 03:02:26.792926] [FileServer] [debug] Server state changed to stopped
+[2024-Dec-08 03:02:26.792974] [FileServer] [debug] [0.0.0.0:58124] Joining message loop thread

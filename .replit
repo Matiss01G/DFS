@@ -74,10 +74,45 @@ externalPort = 3000
 [[ports]]
 localPort = 3000
 externalPort = 80
+exposeLocalhost = true
 
 [[ports]]
 localPort = 3001
+
+[[ports]]
+localPort = 3002
+externalPort = 8000
+exposeLocalhost = true
+
+[[ports]]
+localPort = 3003
+externalPort = 3003
+exposeLocalhost = true
+
+[[ports]]
+localPort = 3004
+externalPort = 3002
+
+[[ports]]
+localPort = 3006
+externalPort = 4200
+exposeLocalhost = true
+
+[[ports]]
+localPort = 8001
+externalPort = 5000
+
+[[ports]]
+localPort = 8002
+externalPort = 5173
+
+[[ports]]
+localPort = 13000
 externalPort = 3001
+
+[[ports]]
+localPort = 13001
+externalPort = 6000
 
 [deployment]
 run = ["sh", "-c", "./main"]

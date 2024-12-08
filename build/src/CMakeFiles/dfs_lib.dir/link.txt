@@ -1,0 +1,2 @@
+/nix/store/9bv7dcvmfcjnmg5mnqwqlq2wxfn8d7yi-gcc-wrapper-13.2.0/bin/ar qc libdfs_lib.a CMakeFiles/dfs_lib.dir/crypto/crypto_utils.cpp.o CMakeFiles/dfs_lib.dir/storage/path_key.cpp.o CMakeFiles/dfs_lib.dir/storage/store.cpp.o CMakeFiles/dfs_lib.dir/network/message.cpp.o CMakeFiles/dfs_lib.dir/network/decoder.cpp.o CMakeFiles/dfs_lib.dir/network/tcp_peer.cpp.o CMakeFiles/dfs_lib.dir/network/tcp_transport.cpp.o CMakeFiles/dfs_lib.dir/server/file_server.cpp.o
+/nix/store/9bv7dcvmfcjnmg5mnqwqlq2wxfn8d7yi-gcc-wrapper-13.2.0/bin/ranlib libdfs_lib.a

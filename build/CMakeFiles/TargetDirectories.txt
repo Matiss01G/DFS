@@ -1,0 +1,9 @@
+/home/runner/DFS-1/build/CMakeFiles/dfs_server.dir
+/home/runner/DFS-1/build/CMakeFiles/edit_cache.dir
+/home/runner/DFS-1/build/CMakeFiles/rebuild_cache.dir
+/home/runner/DFS-1/build/src/CMakeFiles/dfs_lib.dir
+/home/runner/DFS-1/build/src/CMakeFiles/edit_cache.dir
+/home/runner/DFS-1/build/src/CMakeFiles/rebuild_cache.dir
+/home/runner/DFS-1/build/tests/CMakeFiles/dfs_tests.dir
+/home/runner/DFS-1/build/tests/CMakeFiles/edit_cache.dir
+/home/runner/DFS-1/build/tests/CMakeFiles/rebuild_cache.dir

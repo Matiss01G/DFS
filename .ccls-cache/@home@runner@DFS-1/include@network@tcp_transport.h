@@ -11,9 +11,9 @@
 
 #pragma once
 
+#include "network/decoder.h"
 #include "network/tcp_peer.h"
 #include "network/transport.h"
-#include "network/decoder.h"
 #include <boost/asio.hpp>
 #include <functional>
 #include <memory>
@@ -25,17 +25,17 @@ namespace dfs {
 namespace network {
 
 // function for performing handshake with new peers
-using HandshakeFunc = std::function<bool(TCPPeer&)>;
+using HandshakeFunc = std::function<bool(TCPPeer &)>;
 
 // empty handshake that always succeedsHand
-inline bool NOPHandshakeFunc(TCPPeer& peer) { return true; }
+inline bool NOPHandshakeFunc(TCPPeer &peer) { return true; }
 
 // configuration options for TCP transport
 struct TCPTransportOpts {
   std::string listenAddr;                         // address to listen on
   HandshakeFunc handshakeFunc = NOPHandshakeFunc; // handles peer handshakes
-  std::function<void(TCPPeer&)> onPeer; // called when new peer connects
-  std::shared_ptr<Decoder> decoder;  // Add this line
+  std::function<void(std::shared_ptr<TCPPeer>)> OnPeer; // called when new peer connects
+  std::shared_ptr<Decoder> decoder;      // Add this line
 };
 
 class TCPTransport : public Transport {
@@ -57,18 +57,20 @@ public:
   // shut down the transport
   bool Close() override;
 
+  void setOnPeer(std::function<void(std::shared_ptr<Peer>)> callback) override;
+
 private:
   // private methods for connection management
-  void addPeer(const std::string& addr, std::shared_ptr<TCPPeer> peer);
-  void removePeer(const std::string& addr);
-  std::shared_ptr<TCPPeer> getPeer(const std::string& addr);
-  void closeAllPeers();
+  // void addPeer(const std::string& addr, std::shared_ptr<TCPPeer> peer); //
+  // not in use
+  void removePeer(const std::string &addr);
+  // std::shared_ptr<TCPPeer> getPeer(const std::string& addr); // not in use
+  // void closeAllPeers(); // not in use
 
   // helper methods for connection handling
-  void handleConnection(boost::asio::ip::tcp::socket socket, bool outbound);
-  void startAcceptLoop();
-  void handleReadError(const std::string& peerAddr, const std::string& error);
-  
+  // void handleReadError(const std::string& peerAddr, const std::string&
+  // error); // not in use
+
   // configuration options passed to constructor
   TCPTransportOpts opts_;
 
@@ -78,19 +80,18 @@ private:
   std::shared_ptr<Channel<RPC>> rpcChan_;   // channel for incoming messages
 
   // atomic flag for clean shutdown
-  std::atomic<bool> running_;
+  // std::atomic<bool> running_; // not in use
 
   // peer management:
   std::mutex peersMutex_; // protects peers_map
-  std::unordered_map<std::string, std::shared_ptr<TCPPeer>> peers_; // active peers
+  std::unordered_map<std::string, std::shared_ptr<TCPPeer>>
+      peers_; // active peers
 
   // internal helper methods:
   // runs loop that handles incoming connections
   void startAcceptLoop();
   // sets up a new peer connection
   void handleConnection(boost::asio::ip::tcp::socket socket, bool outbound);
-  // removes peer from peers_map when they disconnect
-  void removePeer(const std::string &addr);
 };
 
 } // namespace network
