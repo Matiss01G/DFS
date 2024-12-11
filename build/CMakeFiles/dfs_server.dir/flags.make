@@ -6,5 +6,5 @@ CXX_DEFINES = -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB
 
 CXX_INCLUDES = -I/home/runner/DFS-1/include -I/home/runner/DFS-1/include/third_party
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -g -std=gnu++17
 

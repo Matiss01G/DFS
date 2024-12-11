@@ -79,14 +79,10 @@ bool TCPPeer::ReadStream(std::ostream &out, size_t bytes) {
     LOG_DEBUG << "Starting read stream, expecting " << bytes << " bytes";
     std::vector<char> temp(bytes);
     size_t total_read = 0;
+    const int MAX_RETRIES = 50;
+    int retry_count = 0;
 
     while (total_read < bytes) {
-      if (!socket_.is_open()) {
-        LOG_ERROR << "[" << RemoteAddr() << "] Socket closed during read";
-        stream_complete_ = true;
-        return false;
-      }
-
       LOG_DEBUG << "Current total_read: " << total_read << " out of " << bytes
                 << " bytes";
       boost::system::error_code ec;
@@ -96,23 +92,22 @@ bool TCPPeer::ReadStream(std::ostream &out, size_t bytes) {
           ec);
 
       if (ec == boost::asio::error::would_block) {
+        retry_count++;
+        if (retry_count >= MAX_RETRIES) {
+          LOG_ERROR << "[" << RemoteAddr() << "] Max retries (" << MAX_RETRIES
+                    << ") exceeded while waiting for data";
+          return false;
+        }
         // No data available right now, wait a bit and retry
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         continue;
       }
 
-      if (ec == boost::asio::error::eof || 
-          ec == boost::asio::error::connection_reset ||
-          ec == boost::asio::error::connection_aborted ||
-          ec == boost::asio::error::operation_aborted) {
-        // Connection terminated
-        stream_complete_ = true;
-        LOG_INFO << "[" << RemoteAddr() << "] Connection terminated during stream";
-        return false;
-      }
+      // Reset retry count on successful read
+      retry_count = 0;
 
       if (ec) {
-        // Other error occurred
+        // Real error occurred
         stream_complete_ = true;
         LOG_ERROR << "[" << RemoteAddr()
                   << "] Stream read error: " << ec.message();
@@ -120,7 +115,11 @@ bool TCPPeer::ReadStream(std::ostream &out, size_t bytes) {
       }
 
       if (n == 0) {
-        // No data read but connection still open - retry
+        if (!socket_.is_open()) {
+          LOG_ERROR << "[" << RemoteAddr() << "] Socket closed during read";
+          return false;
+        }
+        // Socket still open but no data - keep trying
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         continue;
       }

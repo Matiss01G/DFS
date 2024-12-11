@@ -1,0 +1,122 @@
+[TEST] 2024-12-11 22:49:33 [info] Initializing TCP Transport...
+[TEST] 2024-12-11 22:49:33 [info] TCP Transport initialized on 0.0.0.0:58123
+[TEST] 2024-12-11 22:49:33 [info] Initializing TCP Transport...
+[TEST] 2024-12-11 22:49:33 [info] TCP Transport initialized on 0.0.0.0:58124
+[TEST] 2024-12-11 22:49:33 [info] Initializing FileServer...
+[TEST] 2024-12-11 22:49:33 [info] Initializing Store with root directory: test_storage_58123
+[TEST] 2024-12-11 22:49:33 [debug] Setting OnPeer callback
+[TEST] 2024-12-11 22:49:33 [info] [0.0.0.0:58123] Starting fileserver...
+[TEST] 2024-12-11 22:49:33 [info] TCP transport listening on 0.0.0.0:58123
+[TEST] 2024-12-11 22:49:33 [debug] Returning RPC channel
+[TEST] 2024-12-11 22:49:33 [info] Starting accept loop
+[TEST] 2024-12-11 22:49:33 [debug] Returning RPC channel
+[TEST] 2024-12-11 22:49:34 [info] Initializing FileServer...
+[TEST] 2024-12-11 22:49:34 [info] Initializing Store with root directory: test_storage_58124
+[TEST] 2024-12-11 22:49:34 [debug] Setting OnPeer callback
+[TEST] 2024-12-11 22:49:34 [info] [0.0.0.0:58124] Starting fileserver...
+[TEST] 2024-12-11 22:49:34 [info] TCP transport listening on 0.0.0.0:58124
+[TEST] 2024-12-11 22:49:34 [debug] Returning RPC channel
+[TEST] 2024-12-11 22:49:34 [debug] Returning RPC channel
+[TEST] 2024-12-11 22:49:34 [info] Starting accept loop
+[TEST] 2024-12-11 22:49:34 [info] Connecting to bootstrap node: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [info] Attempting to dial: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [debug] Resolving address: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [debug] Accepted new connection from: 127.0.0.1
+[TEST] 2024-12-11 22:49:34 [debug] [127.0.0.1:51802] New inbound peer created
+[TEST] 2024-12-11 22:49:34 [info] Handling new inbound connection from 127.0.0.1:51802
+[TEST] 2024-12-11 22:49:34 [info] Connected with peer: 127.0.0.1:51802
+[TEST] 2024-12-11 22:49:34 [info] Starting read loop for 127.0.0.1:51802
+[TEST] 2024-12-11 22:49:34 [info] Successfully connected to: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [debug] [127.0.0.1:58123] New outbound peer created
+[TEST] 2024-12-11 22:49:34 [info] Handling new outbound connection from 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [info] Connected with peer: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:34 [info] Starting read loop for 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:37 [info] [0.0.0.0:58123] Storing file with key: distributed_test.txt
+[TEST] 2024-12-11 22:49:37 [debug] Constructed full path - ID: 71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27, PathKey: F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735, Full path: test_storage_58123/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Writing file - Key: distributed_test.txt
+[TEST] 2024-12-11 22:49:37 [info] Transformed path: F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Full filesystem path: test_storage_58123/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [debug] Creating directories for path: test_storage_58123/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Successfully wrote 32 bytes to test_storage_58123/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [trace] [127.0.0.1:51802] Sent 1 bytes
+[TEST] 2024-12-11 22:49:37 [trace] [127.0.0.1:51802] Sent 4 bytes
+[TEST] 2024-12-11 22:49:37 [trace] [127.0.0.1:51802] Sent 133 bytes
+[TEST] 2024-12-11 22:49:37 [debug] === ENCRYPTION START ===
+[TEST] 2024-12-11 22:49:37 [debug] Starting encryption with key size: 32
+[TEST] 2024-12-11 22:49:37 [debug] Full encryption key: 8c 6a 93 ce 99 16 09 30 a4 1d f8 6a fb 80 dd 68 f6 33 9f 4f 19 d3 2c 00 0b a2 09 07 fb 69 f7 09 
+[TEST] 2024-12-11 22:49:37 [debug] Full IV: bb 92 02 44 51 a5 66 04 fe e7 af b0 42 21 14 f3 
+[TEST] 2024-12-11 22:49:37 [debug] Original content hex:
+[TEST] 2024-12-11 22:49:37 [debug] Writing IV of size 16 to output stream
+[TEST] 2024-12-11 22:49:37 [debug] Starting copyStream
+[TEST] 2024-12-11 22:49:37 [debug] Read 32 bytes from source stream
+[TEST] 2024-12-11 22:49:37 [debug] First 4 bytes being written: 8b b8 b8 59
+[TEST] 2024-12-11 22:49:37 [debug] Processed and wrote 32 bytes
+[TEST] 2024-12-11 22:49:37 [debug] copyStream completed. Total bytes: 32
+[TEST] 2024-12-11 22:49:37 [debug] === ENCRYPTION COMPLETE ===
+[TEST] 2024-12-11 22:49:37 [debug] Encryption complete. Processed bytes: 32 Total with IV: 48
+[TEST] 2024-12-11 22:49:37 [debug] Size of encrypted data: 48
+[TEST] 2024-12-11 22:49:37 [trace] [127.0.0.1:51802] Sent 1 bytes
+[TEST] 2024-12-11 22:49:37 [trace] [127.0.0.1:51802] Sent 4 bytes
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:51802] Wrote 48 bytes to stream
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:51802] Stream marked as complete
+[TEST] 2024-12-11 22:49:37 [info] Successfully sent file to 1/1 peers
+[TEST] 2024-12-11 22:49:37 [info] Read loop ended for 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:37 [info] Removed peer 127.0.0.1:58123 (remaining peers: 0)
+[TEST] 2024-12-11 22:49:37 [debug] Handling store file from: 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:37 [debug] Using encryption key size: 32
+[TEST] 2024-12-11 22:49:37 [debug] First 4 bytes of encryption key: 8c 6a 93 ce
+[TEST] 2024-12-11 22:49:37 [debug] Starting read stream, expecting 5 bytes
+[TEST] 2024-12-11 22:49:37 [debug] Current total_read: 0 out of 5 bytes
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:58123] Stream marked as complete
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:58123] Read 5 bytes from stream
+[TEST] 2024-12-11 22:49:37 [debug] Starting read stream, expecting 48 bytes
+[TEST] 2024-12-11 22:49:37 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:58123] Stream marked as complete
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:58123] Read 48 bytes from stream
+[TEST] 2024-12-11 22:49:37 [debug] Size of received encrypted data: 48
+[TEST] 2024-12-11 22:49:37 [debug] Read encrypted data size: 48
+[TEST] 2024-12-11 22:49:37 [debug] First 4 bytes of encrypted data: bb 92 2 44
+[TEST] 2024-12-11 22:49:37 [debug] === DECRYPTION START ===
+[TEST] 2024-12-11 22:49:37 [debug] Starting decryption with key size: 32
+[TEST] 2024-12-11 22:49:37 [debug] Full decryption key: 8c 6a 93 ce 99 16 09 30 a4 1d f8 6a fb 80 dd 68 f6 33 9f 4f 19 d3 2c 00 0b a2 09 07 fb 69 f7 09 
+[TEST] 2024-12-11 22:49:37 [debug] Read IV: bb 92 02 44 51 a5 66 04 fe e7 af b0 42 21 14 f3 
+[TEST] 2024-12-11 22:49:37 [debug] Encrypted data size (excluding IV): 32
+[TEST] 2024-12-11 22:49:37 [debug] First 4 bytes of encrypted data: 8b b8 b8 59
+[TEST] 2024-12-11 22:49:37 [debug] First 4 bytes of decrypted data: 44 69 73 74
+[TEST] 2024-12-11 22:49:37 [debug] Decrypted content: [Distributed storage test content]
+[TEST] 2024-12-11 22:49:37 [debug] === DECRYPTION COMPLETE ===
+[TEST] 2024-12-11 22:49:37 [debug] Processed 32 bytes
+[TEST] 2024-12-11 22:49:37 [debug] Decrypted data: [Distributed storage test content]
+[TEST] 2024-12-11 22:49:37 [info] Size of decrypted data: 32
+[TEST] 2024-12-11 22:49:37 [debug] Decrypted content for key 'distributed_test.txt': Distributed storage test content
+[TEST] 2024-12-11 22:49:37 [debug] Constructed full path - ID: 71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27, PathKey: F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735, Full path: test_storage_58124/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Writing file - Key: distributed_test.txt
+[TEST] 2024-12-11 22:49:37 [info] Transformed path: F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Full filesystem path: test_storage_58124/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [debug] Creating directories for path: test_storage_58124/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Successfully wrote 32 bytes to test_storage_58124/71B0E1B69EE89B1F9C55C460280467726017106BC308185DC0A18978B7A4BA27/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:37 [info] Successfully stored 32 bytes from peer 127.0.0.1:58123
+[TEST] 2024-12-11 22:49:37 [debug] [127.0.0.1:58123] Stream marked as complete
+[TEST] 2024-12-11 22:49:42 [debug] Constructed full path - ID: 3FB7986067BE0B3ABC4CE147A26E9C283C7502A8DC9C9BF3250D560B04C97919, PathKey: F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735, Full path: test_storage_58124/3FB7986067BE0B3ABC4CE147A26E9C283C7502A8DC9C9BF3250D560B04C97919/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735
+[TEST] 2024-12-11 22:49:42 [debug] Checking existence - Key: distributed_test.txt, Path: test_storage_58124/3FB7986067BE0B3ABC4CE147A26E9C283C7502A8DC9C9BF3250D560B04C97919/F2022/5831A/70232/8AB31/6A3F7/9F3E7/F20225831A702328AB316A3F79F3E735, Exists: no
+[TEST] 2024-12-11 22:49:42 [warning] File not found locally (network fetch temporarily disabled for testing purposes): distributed_test.txt
+[TEST] 2024-12-11 22:49:42 [info] [0.0.0.0:58124] Stopping fileserver...
+[TEST] 2024-12-11 22:49:42 [info] Waiting for loop thread to finish...
+[TEST] 2024-12-11 22:49:42 [info] Loop thread has finished.
+[TEST] 2024-12-11 22:49:42 [info] Closing TCP Transport on 0.0.0.0:58124
+[TEST] 2024-12-11 22:49:42 [debug] Acceptor closed
+[TEST] 2024-12-11 22:49:42 [info] Closing 0 peer connections
+[TEST] 2024-12-11 22:49:42 [info] TCP Transport closed successfully
+[TEST] 2024-12-11 22:49:42 [info] [0.0.0.0:58124] Server stopped
+[TEST] 2024-12-11 22:49:42 [info] [0.0.0.0:58123] Stopping fileserver...
+[TEST] 2024-12-11 22:49:42 [info] Waiting for loop thread to finish...
+[TEST] 2024-12-11 22:49:42 [info] Connection terminated during read
+[TEST] 2024-12-11 22:49:42 [info] Loop thread has finished.
+[TEST] 2024-12-11 22:49:42 [info] Closing TCP Transport on 0.0.0.0:58123
+[TEST] 2024-12-11 22:49:42 [debug] Acceptor closed
+[TEST] 2024-12-11 22:49:42 [info] Closing 1 peer connections
+[TEST] 2024-12-11 22:49:42 [debug] Closing peer connection: 127.0.0.1:51802
+[TEST] 2024-12-11 22:49:42 [info] TCP Transport closed successfully
+[TEST] 2024-12-11 22:49:42 [info] [0.0.0.0:58123] Server stopped
+[TEST] 2024-12-11 22:49:42 [info] Destroying TCP Transport
+[TEST] 2024-12-11 22:49:42 [info] Destroying TCP Transport

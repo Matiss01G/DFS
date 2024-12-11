@@ -1,0 +1,79 @@
+~/.../build/tests$ ./dfs_tests
+Running main() from /build/source/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FileServerTest
+[ RUN      ] FileServerTest.BroadcastMessageTest
+[2024-12-09 02:05:53.098033] [0x00007ff0ce8e2740] [info]    Initializing TCP Transport...
+[2024-12-09 02:05:53.098374] [0x00007ff0ce8e2740] [info]    TCP Transport initialized on 0.0.0.0:58123
+[2024-12-09 02:05:53.098397] [0x00007ff0ce8e2740] [info]    Initializing TCP Transport...
+[2024-12-09 02:05:53.098416] [0x00007ff0ce8e2740] [info]    TCP Transport initialized on 0.0.0.0:58124
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Initializing FileServer...
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Setting OnPeer callback
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] [0.0.0.0:58123] Starting fileserver...
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] TCP transport listening on 0.0.0.0:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Starting accept loop
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Initializing FileServer...
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Initializing FileServer...
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Setting OnPeer callback
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Setting OnPeer callback
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] [0.0.0.0:58124] Starting fileserver...
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] [0.0.0.0:58124] Starting fileserver...
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] TCP transport listening on 0.0.0.0:58124
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] TCP transport listening on 0.0.0.0:58124
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Starting accept loop
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Connecting to bootstrap node: 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Starting accept loop
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Returning RPC channel
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Connecting to bootstrap node: 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Attempting to dial: 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Attempting to dial: 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Resolving address: 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Resolving address: 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Successfully connected to: 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Accepted new connection from: 127.0.0.1
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Successfully connected to: 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Accepted new connection from: 127.0.0.1
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Handling new inbound connection from 127.0.0.1
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Handling new inbound connection from 127.0.0.1
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Created peer 127.0.0.1:36970
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Created peer 127.0.0.1:36970
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Added peer 127.0.0.1:36970 to active peers (total: 1)
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Added peer 127.0.0.1:36970 to active peers (total: 1)
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Calling OnPeer callback for 127.0.0.1:36970
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Calling OnPeer callback for 127.0.0.1:36970
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Connected with peer: 127.0.0.1:36970
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Connected with peer: 127.0.0.1:36970
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Handling new outbound connection from 127.0.0.1
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Handling new outbound connection from 127.0.0.1
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Created peer 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Created peer 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Added peer 127.0.0.1:58123 to active peers (total: 1)
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Added peer 127.0.0.1:58123 to active peers (total: 1)
+[0.0.0.0:58123] 2024-12-09 02:05:53 [debug] Calling OnPeer callback for 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [debug] Calling OnPeer callback for 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Connected with peer: 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Connected with peer: 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Starting read loop for 127.0.0.1:58123
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Starting read loop for 127.0.0.1:58123
+[0.0.0.0:58123] 2024-12-09 02:05:53 [info] Starting read loop for 127.0.0.1:36970
+[0.0.0.0:58124] 2024-12-09 02:05:53 [info] Starting read loop for 127.0.0.1:36970
+[0.0.0.0:58123] 2024-12-09 02:05:54 [info] [0.0.0.0:58123] Storing file with key: broadcast_test.txt
+[0.0.0.0:58124] 2024-12-09 02:05:54 [info] [0.0.0.0:58123] Storing file with key: broadcast_test.txt
+Read message type byte: 1
+[0.0.0.0:58123] 2024-12-09 02:05:54 [debug] Received message from 127.0.0.1:58123 (136 bytes)
+[0.0.0.0:58124] 2024-12-09 02:05:54 [debug] Received message from 127.0.0.1:58123 (136 bytes)
+Read message type byte: 2
+[0.0.0.0:58123] 2024-12-09 02:05:54 [debug] [127.0.0.1:58123] incoming stream, waiting...
+[0.0.0.0:58124] 2024-12-09 02:05:54 [debug] [127.0.0.1:58123] incoming stream, waiting...
+[0.0.0.0:58123] 2024-12-09 02:05:54 [info] File replicated to 1/1 peers
+[0.0.0.0:58124] 2024-12-09 02:05:54 [info] File replicated to 1/1 peers
+[0.0.0.0:58123] 2024-12-09 02:05:55 [info] [0.0.0.0:58124] Stopping fileserver...
+[0.0.0.0:58124] 2024-12-09 02:05:55 [info] [0.0.0.0:58124] Stopping fileserver...
+[0.0.0.0:58123] 2024-12-09 02:05:55 [info] Waiting for loop thread to finish...
+[0.0.0.0:58124] 2024-12-09 02:05:55 [info] Waiting for loop thread to finish...

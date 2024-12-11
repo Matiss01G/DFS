@@ -1,38 +1,35 @@
 #include "storage/store.h"
+#include "logging/logging.hpp"
+#include <iostream>
 #include <system_error>
 
 namespace dfs {
 namespace storage {
 
-// constructor uses default root=ggnetwork, DefaultPathTransformFunc if no
-// options provided
 Store::Store(StoreOpts opts) : opts_(std::move(opts)) {
+  LOG_INFO << "Initializing Store with root directory: " << opts_.root;
   std::filesystem::create_directories(opts_.root);
 }
 
-std::int64_t Store::Write(const std::string &id, const std::string &hashedKey,
+std::int64_t Store::Write(const std::string &id, const std::string &key,
                           std::istream &data) {
-  // Create PathKey directly from hashed key without additional hashing
-  PathKey pathKey(hashedKey, hashedKey);
-  return WriteHelp(id, pathKey, data);
-}
-
-std::int64_t Store::HashAndWrite(const std::string &id, const std::string &key,
-                                 std::istream &data) {
-  // Use path transform function which includes hashing
+  // Transform the key into a path using the configured transform function
   PathKey pathKey = opts_.pathTransformFunc(key);
-  return WriteHelp(id, pathKey, data);
-}
 
-// Common implementation for both write methods
-std::int64_t Store::WriteHelp(const std::string &id, const PathKey &pathKey,
-                              std::istream &data) {
+  // Get full filesystem path and open output file
   auto fullPath = getFullPath(id, pathKey);
+
+  LOG_INFO << "Writing file - Key: " << key;
+  LOG_INFO << "Transformed path: " << pathKey.fullPath();
+  LOG_INFO << "Full filesystem path: " << fullPath.string();
+
   auto outFile = openFileForWriting(fullPath);
   if (!outFile || !outFile->is_open()) {
+    LOG_ERROR << "Failed to open file for writing: " << fullPath.string();
     return -1;
   }
 
+  // Copy data from input stream to file in chunks
   std::int64_t bytesWritten = 0;
   char buffer[8192];
   while (data.read(buffer, sizeof(buffer))) {
@@ -40,70 +37,110 @@ std::int64_t Store::WriteHelp(const std::string &id, const PathKey &pathKey,
     outFile->write(buffer, data.gcount());
   }
 
+  // Handle any remaining partial buffer
   if (data.gcount() > 0) {
     bytesWritten += data.gcount();
     outFile->write(buffer, data.gcount());
   }
+
+  LOG_INFO << "Successfully wrote " << bytesWritten << " bytes to "
+           << fullPath.string();
   return bytesWritten;
 }
 
-// Reads a file from the store
 ReadResults Store::Read(const std::string &id, const std::string &key) {
   ReadResults result;
-
   PathKey pathKey = opts_.pathTransformFunc(key);
   auto fullPath = getFullPath(id, pathKey);
 
+  LOG_INFO << "Reading file - Key: " << key;
+  LOG_INFO << "Transformed path: " << pathKey.fullPath();
+  LOG_INFO << "Full filesystem path: " << fullPath.string();
+
   if (!std::filesystem::exists(fullPath)) {
+    LOG_ERROR << "File not found: " << fullPath.string();
     return result;
   }
 
   result.size = std::filesystem::file_size(fullPath);
   result.stream = std::make_unique<std::ifstream>(fullPath, std::ios::binary);
 
+  if (!result.stream->good()) {
+    LOG_ERROR << "Failed to open file for reading: " << fullPath.string();
+    result.stream = nullptr;
+    return result;
+  }
+
+  LOG_INFO << "Successfully opened file, size: " << result.size << " bytes";
   return result;
 }
 
-// checks if a file exists in the store
 bool Store::Has(const std::string &id, const std::string &key) const {
   PathKey pathKey = opts_.pathTransformFunc(key);
-  return std::filesystem::exists(getFullPath(id, pathKey));
+  auto fullPath = getFullPath(id, pathKey);
+
+  bool exists = std::filesystem::exists(fullPath);
+  LOG_DEBUG << "Checking existence - Key: " << key
+            << ", Path: " << fullPath.string()
+            << ", Exists: " << (exists ? "yes" : "no");
+
+  return exists;
 }
 
-// deletes a file and its parent directory structure
 bool Store::Delete(const std::string &id, const std::string &key) {
   PathKey pathKey = opts_.pathTransformFunc(key);
-
-  // get the first directory in the path to remove entire subtree
   auto firstDir =
       std::filesystem::path(opts_.root) / id / pathKey.firstPathName();
 
+  LOG_INFO << "Deleting directory tree - Key: " << key;
+  LOG_INFO << "Directory to remove: " << firstDir.string();
+
   std::error_code ec;
-  return std::filesystem::remove_all(firstDir, ec) > 0;
+  auto removed = std::filesystem::remove_all(firstDir, ec);
+
+  if (ec) {
+    LOG_ERROR << "Failed to delete directory: " << firstDir.string()
+              << ", Error: " << ec.message();
+    return false;
+  }
+
+  LOG_INFO << "Successfully removed " << removed << " files/directories";
+  return removed > 0;
 }
 
-// clears all files and directories in the store's root
 bool Store::Clear() {
+  LOG_INFO << "Clearing all files from store root: " << opts_.root;
+
   std::error_code ec;
-  return std::filesystem::remove_all(opts_.root, ec) > 0;
+  auto removed = std::filesystem::remove_all(opts_.root, ec);
+
+  if (ec) {
+    LOG_ERROR << "Failed to clear store: " << ec.message();
+    return false;
+  }
+
+  LOG_INFO << "Successfully removed " << removed << " files/directories";
+  return removed > 0;
 }
 
-// helper function to construct full filesystem path for a file
-// combines root dir + node ID + transformed path + filename
 std::filesystem::path Store::getFullPath(const std::string &id,
                                          const PathKey &pathKey) const {
-  return std::filesystem::path(opts_.root) / id / pathKey.fullPath();
+  auto path = std::filesystem::path(opts_.root) / id / pathKey.fullPath();
+  LOG_DEBUG << "Constructed full path - ID: " << id
+            << ", PathKey: " << pathKey.fullPath()
+            << ", Full path: " << path.string();
+  return path;
 }
 
-// helper function to prepare file for writing
-// creates all necessary parent directories, opens file in binary mode, returns
-// pointer to output file stream or nullptr on error
 std::unique_ptr<std::ofstream>
 Store::openFileForWriting(const std::filesystem::path &path) {
-  // create all parent directories first
+  LOG_DEBUG << "Creating directories for path: " << path.string();
   std::filesystem::create_directories(path.parent_path());
 
   auto file = std::make_unique<std::ofstream>(path, std::ios::binary);
+  if (!file->is_open()) {
+    LOG_ERROR << "Failed to open file for writing: " << path.string();
+  }
   return file;
 }
 

@@ -90,3 +90,22 @@ TEST(CryptoTests, NewEncryptionKey) {
       std::all_of(key1.begin(), key1.end(), [](uint8_t b) { return b == 0; });
   EXPECT_FALSE(allZeros1) << "Encryption key should not be all zeros";
 }
+
+TEST(CryptoTest, BasicStringEncryptionDecryption) {
+  std::string original = "Hello, World!";
+  auto key = dfs::crypto::newEncryptionKey();
+
+  std::stringstream src(original);
+  std::stringstream encrypted;
+
+  auto encryptedBytes = dfs::crypto::copyEncrypt(key, src, encrypted);
+  EXPECT_GT(encryptedBytes, 0);
+
+  std::stringstream encryptedStream(encrypted.str());
+  std::stringstream decrypted;
+  auto decryptedBytes =
+      dfs::crypto::copyDecrypt(key, encryptedStream, decrypted);
+  EXPECT_GT(decryptedBytes, 0);
+
+  EXPECT_EQ(decrypted.str(), original);
+}

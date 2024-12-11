@@ -1,4 +1,5 @@
 #include "crypto/crypto_utils.h"
+#include "logging/logging.hpp"
 #include "network/tcp_transport.h"
 #include "server/file_server.h"
 #include <chrono>
@@ -11,6 +12,9 @@ using namespace std::chrono_literals;
 class FileServerTest : public ::testing::Test {
 protected:
   void SetUp() override {
+    // Initialize logging once at test startup
+    dfs::logging::init_logging("TEST");
+
     // create encryption key
     auto sharedKey = crypto::newEncryptionKey();
 
@@ -141,6 +145,67 @@ protected:
 //   server->Stop();
 // }
 
+// // Test 2: Verify two servers can connect properly
+// TEST_F(FileServerTest, ServerConnectionTest) {
+//   auto server1 = std::make_unique<server::FileServer>(serverOpts1_);
+//   ASSERT_TRUE(server1->Start());
+//   std::this_thread::sleep_for(500ms);
+
+//   auto server2 = std::make_unique<server::FileServer>(serverOpts2_);
+//   ASSERT_TRUE(server2->Start());
+//   std::this_thread::sleep_for(1s);
+
+//   server2->Stop();
+//   server1->Stop();
+// }
+
+// // Test 3: Verify broadcast message mechanism works
+// TEST_F(FileServerTest, BroadcastMessageTest) {
+//   auto server1 = std::make_unique<server::FileServer>(serverOpts1_);
+//   ASSERT_TRUE(server1->Start());
+//   std::this_thread::sleep_for(500ms);
+
+//   auto server2 = std::make_unique<server::FileServer>(serverOpts2_);
+//   ASSERT_TRUE(server2->Start());
+//   std::this_thread::sleep_for(1s);
+
+//   // Store small file on server1
+//   std::string testKey = "broadcast_test.txt";
+//   std::string testData = "Small test data";
+//   std::stringstream dataStream(testData);
+
+//   // This should trigger broadcast - add logging to verify
+//   ASSERT_TRUE(server1->Store(testKey, dataStream));
+
+//   std::this_thread::sleep_for(1s);
+
+//   server2->Stop();
+//   server1->Stop();
+// }
+
+// TEST_F(FileServerTest, StreamTransferTest) {
+//   auto server1 = std::make_unique<server::FileServer>(serverOpts1_);
+//   auto server2 = std::make_unique<server::FileServer>(serverOpts2_);
+
+//   ASSERT_TRUE(server1->Start());
+//   std::this_thread::sleep_for(500ms);
+//   ASSERT_TRUE(server2->Start());
+//   std::this_thread::sleep_for(1s);
+
+//   // Create test data that's big enough to ensure streaming
+//   std::string testKey = "stream_test.txt";
+//   std::stringstream dataStream;
+//   for (int i = 0; i < 1000; i++) {
+//     dataStream << "Test data block " << i << "\n";
+//   }
+
+//   ASSERT_TRUE(server1->Store(testKey, dataStream));
+//   std::this_thread::sleep_for(2s);
+
+//   server2->Stop();
+//   server1->Stop();
+// }
+
 // Tests that when a file is stored on one server, it is automatically
 // replicated to other connected servers
 TEST_F(FileServerTest, StoreFileAcrossNetwork) {
@@ -153,7 +218,7 @@ TEST_F(FileServerTest, StoreFileAcrossNetwork) {
   ASSERT_TRUE(server2->Start());
 
   // Give time for server2 to connect to server1 via bootstrap
-  std::this_thread::sleep_for(1s);
+  std::this_thread::sleep_for(3s);
 
   // Store file on server1
   std::string testKey = "distributed_test.txt";

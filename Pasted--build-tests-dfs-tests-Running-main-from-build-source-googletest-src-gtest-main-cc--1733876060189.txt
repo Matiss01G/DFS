@@ -1,0 +1,103 @@
+~/.../build/tests$ ./dfs_tests
+Running main() from /build/source/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FileServerTest
+[ RUN      ] FileServerTest.StoreFileAcrossNetwork
+[TEST] 2024-12-11 00:12:16 [info] Initializing TCP Transport...
+[TEST] 2024-12-11 00:12:16 [info] TCP Transport initialized on 0.0.0.0:58123
+[TEST] 2024-12-11 00:12:16 [info] Initializing TCP Transport...
+[TEST] 2024-12-11 00:12:16 [info] TCP Transport initialized on 0.0.0.0:58124
+[TEST] 2024-12-11 00:12:16 [info] Initializing FileServer...
+[Store] Initializing with root directory: test_storage_58123
+[TEST] 2024-12-11 00:12:16 [debug] Setting OnPeer callback
+[TEST] 2024-12-11 00:12:16 [info] [0.0.0.0:58123] Starting fileserver...
+[TEST] 2024-12-11 00:12:16 [info] TCP transport listening on 0.0.0.0:58123
+[TEST] 2024-12-11 00:12:16 [debug] Returning RPC channel
+[TEST] 2024-12-11 00:12:16 [info] Starting accept loop
+[TEST] 2024-12-11 00:12:16 [debug] Returning RPC channel
+[TEST] 2024-12-11 00:12:16 [info] Initializing FileServer...
+[Store] Initializing with root directory: test_storage_58124
+[TEST] 2024-12-11 00:12:16 [debug] Setting OnPeer callback
+[TEST] 2024-12-11 00:12:16 [info] [0.0.0.0:58124] Starting fileserver...
+[TEST] 2024-12-11 00:12:16 [info] TCP transport listening on 0.0.0.0:58124
+[TEST] 2024-12-11 00:12:16 [debug] Returning RPC channel
+[TEST] 2024-12-11 00:12:16 [info] Starting accept loop
+[TEST] 2024-12-11 00:12:16 [debug] Returning RPC channel
+[TEST] 2024-12-11 00:12:16 [info] Connecting to bootstrap node: 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [info] Attempting to dial: 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [debug] Resolving address: 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [info] Successfully connected to: 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [debug] Accepted new connection from: 127.0.0.1
+[TEST] 2024-12-11 00:12:16 [debug] [127.0.0.1:58123] New outbound peer created
+[TEST] 2024-12-11 00:12:16 [debug] [127.0.0.1:34954] New inbound peer created
+[TEST] 2024-12-11 00:12:16 [info] Handling new outbound connection from 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [info] Connected with peer: 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [info] Handling new inbound connection from 127.0.0.1:34954
+[TEST] 2024-12-11 00:12:16 [info] Connected with peer: 127.0.0.1:34954
+[TEST] 2024-12-11 00:12:16 [info] Starting read loop for 127.0.0.1:58123
+[TEST] 2024-12-11 00:12:16 [info] Starting read loop for 127.0.0.1:34954
+[TEST] 2024-12-11 00:12:19 [info] [0.0.0.0:58123] Storing file with key: distributed_test.txt
+[TEST] 2024-12-11 00:12:19 [trace] [127.0.0.1:34954] Sent 1 bytes
+[TEST] 2024-12-11 00:12:19 [trace] [127.0.0.1:34954] Sent 4 bytes
+[TEST] 2024-12-11 00:12:19 [trace] [127.0.0.1:34954] Sent 133 bytes
+[TEST] 2024-12-11 00:12:19 [trace] [127.0.0.1:34954] Sent 1 bytes
+[TEST] 2024-12-11 00:12:19 [trace] [127.0.0.1:34954] Sent 4 bytes
+[TEST] 2024-12-11 00:12:19 [debug] [127.0.0.1:34954] Wrote 16 bytes to stream
+[TEST] 2024-12-11 00:12:19 [debug] [127.0.0.1:34954] Stream marked as complete
+[TEST] 2024-12-11 00:12:19 [info] Successfully sent file to 1/1 peers
+[TEST] 2024-12-11 00:12:19 [debug] [127.0.0.1:58123] Starting new stream
+[TEST] 2024-12-11 00:12:19 [debug] [127.0.0.1:58123] incoming stream, waiting...
+[TEST] 2024-12-11 00:12:19 [debug] [127.0.0.1:58123] Waiting for stream completion
+[TEST] 2024-12-11 00:12:19 [debug] Starting read stream, expecting 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:19 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [debug] Current total_read: 0 out of 48 bytes
+[TEST] 2024-12-11 00:12:20 [error] [127.0.0.1:58123] Max retries (50) exceeded while waiting for data

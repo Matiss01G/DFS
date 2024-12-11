@@ -1,5 +1,7 @@
 #include "network/tcp_transport.h"
+#include "logging/logging.hpp"
 #include <iostream>
+#include <thread>
 
 namespace dfs {
 namespace network {
@@ -8,12 +10,13 @@ TCPTransport::TCPTransport(TCPTransportOpts opts)
     : opts_(std::move(opts)), acceptor_(io_context_),
       rpcChan_(std::make_shared<Channel<RPC>>(1024)) {
 
+  LOG_INFO << "Initializing TCP Transport...";
+
   // Parse address and port
   std::string addr = "127.0.0.1"; // default to localhost
   std::string portStr;
 
   // split address into ip and port.
-  // SHOULD BE DEFINED IN HELPER BECAUSE DIAL() ALREADY DOES THIS
   size_t colonPos = opts_.listenAddr.find(':');
   if (colonPos != std::string::npos) {
     if (colonPos > 0) { // if there's an address specified
@@ -30,21 +33,26 @@ TCPTransport::TCPTransport(TCPTransportOpts opts)
   acceptor_.open(endpoint.protocol());
   acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
   acceptor_.bind(endpoint);
+
+  LOG_INFO << "TCP Transport initialized on " << opts_.listenAddr;
 }
 
-void dfs::network::TCPTransport::setOnPeer(
+void TCPTransport::setOnPeer(
     std::function<void(std::shared_ptr<Peer>)> callback) {
+  LOG_DEBUG << "Setting OnPeer callback";
   opts_.OnPeer = std::move(callback);
 }
 
-// destructor ensures all connections are properly closed
-TCPTransport::~TCPTransport() { Close(); }
-
-std::string dfs::network::TCPTransport::Addr() const {
-  return opts_.listenAddr;
+TCPTransport::~TCPTransport() {
+  LOG_INFO << "Destroying TCP Transport";
+  Close();
 }
 
+std::string TCPTransport::Addr() const { return opts_.listenAddr; }
+
 bool TCPTransport::Dial(const std::string &addr) {
+  LOG_INFO << "Attempting to dial: " << addr;
+
   try {
     // create a new socket for this connection
     boost::asio::ip::tcp::socket socket(io_context_);
@@ -52,11 +60,14 @@ bool TCPTransport::Dial(const std::string &addr) {
     // split address into host and port components
     size_t colon_pos = addr.find(':');
     if (colon_pos == std::string::npos) {
+      LOG_ERROR << "Invalid address format: " << addr;
       return false;
     }
 
     std::string host = addr.substr(0, colon_pos);
     int port = std::stoi(addr.substr(colon_pos + 1));
+
+    LOG_DEBUG << "Resolving address: " << host << ":" << port;
 
     // resolve the address to one or more endpoints
     boost::asio::ip::tcp::resolver resolver(io_context_);
@@ -64,169 +75,172 @@ bool TCPTransport::Dial(const std::string &addr) {
 
     // attempt to connect to the resolved endpoints
     boost::asio::connect(socket, endpoints);
+    LOG_INFO << "Successfully connected to: " << addr;
 
     // handle the new outbound connection
     handleConnection(std::move(socket), true);
     return true;
   } catch (const std::exception &e) {
-    std::cerr << "Dial error: " << e.what() << std::endl;
+    LOG_ERROR << "Dial error: " << e.what();
     return false;
   }
 }
 
-// listen for incoming connections and start accept loop
 bool TCPTransport::ListenAndAccept() {
   try {
-    // start listening
     acceptor_.listen();
-    // std::cout << "TCP transport listening on " << opts_.listenAddr <<
-    // std::endl;
+    LOG_INFO << "TCP transport listening on " << opts_.listenAddr;
 
     // launch accept loop in separate thread
     std::thread([this]() { startAcceptLoop(); }).detach();
     return true;
   } catch (const std::exception &e) {
-    std::cerr << "Listen error: " << e.what() << std::endl;
+    LOG_ERROR << "Listen error: " << e.what();
     return false;
   }
 }
 
-// main loop that accepts incoming connections
 void TCPTransport::startAcceptLoop() {
+  LOG_INFO << "Starting accept loop";
+
   while (acceptor_.is_open()) {
     try {
       // wait for and accept new connections
       boost::asio::ip::tcp::socket socket(io_context_);
       acceptor_.accept(socket);
+      LOG_DEBUG << "Accepted new connection from: "
+                << socket.remote_endpoint().address().to_string();
 
       // handle inbound connection
       handleConnection(std::move(socket), false);
     } catch (const std::exception &e) {
       if (!acceptor_.is_open()) {
+        LOG_INFO << "Acceptor closed, stopping accept loop";
         break;
       }
-      std::cerr << "Accept error: " << e.what() << std::endl;
+      LOG_ERROR << "Accept error: " << e.what();
     }
   }
 }
 
-// sets up and manages new peer connection whether inbound/outbound
 void TCPTransport::handleConnection(boost::asio::ip::tcp::socket socket,
                                     bool outbound) {
   try {
-    // debug print statement
-    std::cout << "[Transport " << opts_.listenAddr << "] New "
-              << (outbound ? "outbound" : "inbound") << " connection"
-              << std::endl;
+    auto peer = std::make_shared<TCPPeer>(std::move(socket), outbound);
+    LOG_INFO << "Handling new " << (outbound ? "outbound" : "inbound")
+             << " connection from " << peer->RemoteAddr();
 
-    // create new peer for this connection
-    auto peer =
-        std::make_shared<dfs::network::TCPPeer>(std::move(socket), outbound);
-    // debug print statement
-    std::cout << "[Transport " << opts_.listenAddr << "] Created peer "
-              << peer->RemoteAddr() << std::endl;
-
-    // perform the handshake protocol
     if (!opts_.handshakeFunc(*peer)) {
-      std::cerr << "Handshake failed with " << peer->RemoteAddr() << std::endl;
+      LOG_ERROR << "Handshake failed with " << peer->RemoteAddr();
       return;
     }
 
-    // add peer to our active peers map
     {
       std::lock_guard<std::mutex> lock(peersMutex_);
       peers_[peer->RemoteAddr()] = peer;
     }
 
-    // notify callback if one was provided
     if (opts_.OnPeer) {
-      // debug print statement
-      std::cout << "[Transport " << opts_.listenAddr << "] Calling OnPeer for "
-                << peer->RemoteAddr() << std::endl;
       opts_.OnPeer(peer);
     }
 
-    // start reading messages from this peer
-    // each peer gets its own read loop running in a separate thread
-    // Start a read loop for this peer in a separate thread
     std::thread([this, peer]() {
-      // debug print statement
-      std::cout << "[Transport " << opts_.listenAddr
-                << "] Starting read loop for " << peer->RemoteAddr()
-                << std::endl;
-      while (true) {
+      LOG_INFO << "Starting read loop for " << peer->RemoteAddr();
+
+      try {
         RPC rpc;
-        // Use decoder to read next message
         ssize_t bytesRead = opts_.decoder->Decode(peer->socket(), rpc);
+
         if (bytesRead < 0) {
-          std::cerr << "Decode error from peer: " << peer->RemoteAddr()
-                    << std::endl;
-          break;
+          // Fatal error or connection closed
+          LOG_INFO << "Connection closed to peer: " << peer->RemoteAddr();
+          return;
+        }
+
+        if (bytesRead == 0) {
+          // Temporary error, retry after short delay
+          std::this_thread::sleep_for(std::chrono::milliseconds(50));
+          return;
         }
 
         if (rpc.isStream()) {
           peer->StartStream();
-          std::cout << "[" << peer->RemoteAddr()
-                    << "] incoming stream, waiting..." << std::endl;
+          LOG_DEBUG << "[" << peer->RemoteAddr()
+                    << "] incoming stream, waiting...";
           peer->WaitForStream();
-          std::cout << "[" << peer->RemoteAddr()
-                    << "] stream closed, resuming read loop" << std::endl;
-          continue;
+          LOG_DEBUG << "[" << peer->RemoteAddr()
+                    << "] stream closed, resuming read loop";
         }
 
         rpc.setFrom(peer->RemoteAddr());
         rpcChan_->Send(std::move(rpc));
+
+      } catch (const boost::system::system_error &e) {
+        LOG_ERROR << "Connection error for " << peer->RemoteAddr() << ": "
+                  << e.what();
       }
 
-      // Clean up peer when loop exits
+      LOG_INFO << "Read loop ended for " << peer->RemoteAddr();
       removePeer(peer->RemoteAddr());
-    }).detach(); // Launch the read loop in a detached thread
+    }).detach();
+
   } catch (const std::exception &e) {
-    std::cerr << "Handle connection error: " << e.what() << std::endl;
+    LOG_ERROR << "Handle connection error: " << e.what();
   }
 }
 
-// returns the channel where all incoming messages can be received
-std::shared_ptr<Channel<RPC>> TCPTransport::Consume() { return rpcChan_; }
+std::shared_ptr<Channel<RPC>> TCPTransport::Consume() {
+  LOG_DEBUG << "Returning RPC channel";
+  return rpcChan_;
+}
 
-// shuts down the transport, closing all connections
 bool TCPTransport::Close() {
-  // debug print statement
-  std::cout << "[Transport " << opts_.listenAddr << "] Close called"
-            << std::endl;
+  // Atomic guard against multiple closes
+  bool expected = false;
+  if (!closed_.compare_exchange_strong(expected, true)) {
+    return true; // Already closed
+  }
+
+  LOG_INFO << "Closing TCP Transport on " << opts_.listenAddr;
 
   try {
     // stop accepting new connections
-    acceptor_.close();
-    // debug print statement
-    std::cout << "[Transport " << opts_.listenAddr << "] Acceptor closed"
-              << std::endl;
+    if (acceptor_.is_open()) {
+      acceptor_.close();
+    }
+    LOG_DEBUG << "Acceptor closed";
+
+    io_context_.stop();
 
     // close all peer connections
     std::lock_guard<std::mutex> lock(peersMutex_);
 
-    // debug print statements
-    std::cout << "[Transport " << opts_.listenAddr << "] Closing "
-              << peers_.size() << " peers" << std::endl;
+    LOG_INFO << "Closing " << peers_.size() << " peer connections";
     for (auto &[addr, peer] : peers_) {
-      std::cout << "[Transport " << opts_.listenAddr << "] Closing peer "
-                << addr << std::endl;
+      LOG_DEBUG << "Closing peer connection: " << addr;
+      auto &socket = peer->socket();
+
+      // Shutdown both send and receive operations
+      socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+
+      // Close the socket
+      socket.close();
     }
 
     peers_.clear();
-
+    LOG_INFO << "TCP Transport closed successfully";
     return true;
   } catch (const std::exception &e) {
-    std::cerr << "Close error: " << e.what() << std::endl;
+    LOG_ERROR << "Close error: " << e.what();
     return false;
   }
 }
 
-// Removes a peer from active peers map
-// called when a peer disconnects
 void TCPTransport::removePeer(const std::string &addr) {
   std::lock_guard<std::mutex> lock(peersMutex_);
   peers_.erase(addr);
+  LOG_INFO << "Removed peer " << addr << " (remaining peers: " << peers_.size()
+           << ")";
 }
 
 } // namespace network

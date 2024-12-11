@@ -35,7 +35,7 @@ struct TCPTransportOpts {
   std::string listenAddr;                         // address to listen on
   HandshakeFunc handshakeFunc = NOPHandshakeFunc; // handles peer handshakes
   std::function<void(std::shared_ptr<TCPPeer>)> OnPeer; // called when new peer connects
-  std::shared_ptr<Decoder> decoder;      // Add this line
+  std::shared_ptr<Decoder> decoder;
 };
 
 class TCPTransport : public Transport {
@@ -60,6 +60,8 @@ public:
   void setOnPeer(std::function<void(std::shared_ptr<Peer>)> callback) override;
 
 private:
+  std::atomic<bool> closed_{false};
+  
   // private methods for connection management
   // void addPeer(const std::string& addr, std::shared_ptr<TCPPeer> peer); //
   // not in use
