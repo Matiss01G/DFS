@@ -1,21 +1,22 @@
 #ifndef DFS_NETWORK_FILE_SERVER_HPP
 #define DFS_NETWORK_FILE_SERVER_HPP
 
+#include <atomic>
 #include <cstdint>
-#include <vector>
 #include <memory>
 #include <mutex>
-#include <thread>
-#include <string>
-#include <sstream>
 #include <optional>
-#include "store/store.hpp"
+#include <sstream>
+#include <string>
+#include <thread>
+#include <vector>
+#include "crypto/crypto_stream.hpp"
+#include "network/channel.hpp"
 #include "network/codec.hpp"
 #include "network/message_frame.hpp"
-#include "network/channel.hpp"
-#include "crypto/crypto_stream.hpp"
+#include "network/tcp_server.hpp"
+#include "store/store.hpp"
 #include "utils/pipeliner.hpp"
-#include "network/tcp_server.hpp" 
 
 namespace dfs {
 namespace network {

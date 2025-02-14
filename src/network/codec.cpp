@@ -1,8 +1,8 @@
+#include <sstream>
+#include <stdexcept>
 #include "network/codec.hpp"
 #include "crypto/crypto_stream.hpp"
 #include <boost/log/trivial.hpp>
-#include <sstream>
-#include <stdexcept>
 
 namespace dfs {
 namespace network {

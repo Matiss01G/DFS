@@ -1,11 +1,11 @@
 #ifndef DFS_NETWORK_PEER_HPP
 #define DFS_NETWORK_PEER_HPP
 
-#include <string>
 #include <functional>
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <streambuf>
+#include <string>
 #include "message_frame.hpp"
 
 namespace dfs {

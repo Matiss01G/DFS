@@ -1,10 +1,10 @@
+#include <array>
+#include <stdexcept>
 #include "crypto/crypto_stream.hpp"
 #include <openssl/evp.h>
 #include <openssl/aes.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
-#include <array>
-#include <stdexcept>
 #include <boost/log/trivial.hpp>
 
 namespace dfs::crypto {

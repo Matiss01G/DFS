@@ -1,7 +1,7 @@
-#include "network/channel.hpp"
-#include <boost/log/trivial.hpp>
 #include <sstream>
 #include <istream>
+#include "network/channel.hpp"
+#include <boost/log/trivial.hpp>
 
 namespace dfs {
 namespace network {

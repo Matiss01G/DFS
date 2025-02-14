@@ -1,10 +1,12 @@
 #ifndef DFS_NETWORK_TCP_PEER_HPP
 #define DFS_NETWORK_TCP_PEER_HPP
 
-#include <string>
-#include <memory>
-#include <thread>
 #include <atomic>
+#include <functional>
+#include <memory>
+#include <string>
+#include <thread>
+#include <utility>
 #include <boost/asio.hpp>
 #include <boost/log/trivial.hpp>
 #include "peer.hpp"

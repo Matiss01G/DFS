@@ -1,7 +1,7 @@
+#include <thread>
 #include "network/tcp_server.hpp"
 #include "network/tcp_peer.hpp"
 #include <boost/bind/bind.hpp>
-#include <thread>
 
 namespace dfs {
 namespace network {

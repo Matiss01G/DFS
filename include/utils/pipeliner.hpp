@@ -1,11 +1,11 @@
 #pragma once
 
+#include <condition_variable>
 #include <functional>
 #include <memory>
-#include <sstream>
-#include <queue>
 #include <mutex>
-#include <condition_variable>
+#include <queue>
+#include <sstream>
 #include <boost/log/trivial.hpp>
 
 namespace dfs {

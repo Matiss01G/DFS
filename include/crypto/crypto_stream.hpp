@@ -1,12 +1,12 @@
 #ifndef DFS_CRYPTO_STREAM_HPP
 #define DFS_CRYPTO_STREAM_HPP
 
-#include <istream>
-#include <ostream>
-#include <vector>
-#include <memory>
 #include <array>
 #include <functional>
+#include <istream>
+#include <memory>
+#include <ostream>
+#include <vector>
 #include "crypto_error.hpp"
 
 namespace dfs::crypto {

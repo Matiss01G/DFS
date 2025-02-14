@@ -1,6 +1,6 @@
+#include <sstream>
 #include "network/bootstrap.hpp"
 #include <boost/log/trivial.hpp>
-#include <sstream>
 
 namespace dfs {
 namespace network {

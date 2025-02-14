@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <memory>
 #include <sstream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <boost/endian/conversion.hpp>
 
 namespace dfs {

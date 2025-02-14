@@ -1,12 +1,12 @@
-#include "file_server/file_server.hpp"
-#include <boost/log/trivial.hpp>
 #include <filesystem>
 #include <optional>
 #include <thread>
 #include <chrono>
-#include "network/peer_manager.hpp"
 #include <memory>
 #include <functional>
+#include "network/peer_manager.hpp"
+#include "file_server/file_server.hpp"
+#include <boost/log/trivial.hpp>
 #include "utils/pipeliner.hpp"
 
 namespace dfs {

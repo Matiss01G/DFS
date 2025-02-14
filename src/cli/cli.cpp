@@ -1,7 +1,7 @@
-#include "cli/cli.hpp"
 #include <iostream>
 #include <sstream>
 #include <boost/log/trivial.hpp>
+#include "cli/cli.hpp"
 
 namespace dfs {
 namespace cli {

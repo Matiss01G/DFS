@@ -1,10 +1,12 @@
 #pragma once
 
-#include <boost/asio.hpp>
-#include <boost/log/trivial.hpp>
 #include <memory>
 #include <string>
+#include <thread>
+#include <boost/asio.hpp>
+#include <boost/log/trivial.hpp>
 #include "network/peer_manager.hpp"
+
 
 namespace dfs {
 namespace network {

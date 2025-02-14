@@ -1,5 +1,5 @@
-#include "network/tcp_peer.hpp"
 #include <stdexcept>
+#include "network/tcp_peer.hpp"
 
 namespace dfs {
 namespace network {

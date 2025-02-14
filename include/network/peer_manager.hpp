@@ -1,12 +1,13 @@
 #ifndef PEER_MANAGER_HPP
 #define PEER_MANAGER_HPP
 
+#include <istream>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <utility>  
 #include <vector>
-#include <istream>
 #include "peer.hpp"
 #include "tcp_peer.hpp"
 #include "channel.hpp"

@@ -1,9 +1,9 @@
 #ifndef DFS_BYTE_ORDER_HPP
 #define DFS_BYTE_ORDER_HPP
 
-#include <cstdint>
-#include <array>
 #include <algorithm>
+#include <array>
+#include <cstdint>
 #include <cstring>
 
 namespace dfs::crypto {

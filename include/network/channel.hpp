@@ -1,7 +1,7 @@
 #pragma once
 
-#include <queue>
 #include <mutex>
+#include <queue>
 #include "network/message_frame.hpp"
 
 namespace dfs {
