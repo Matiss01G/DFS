@@ -1,5 +1,0 @@
-if(EXISTS "/home/runner/workspace/DFS/build/channel_tests[1]_tests.cmake")
-  include("/home/runner/workspace/DFS/build/channel_tests[1]_tests.cmake")
-else()
-  add_test(channel_tests_NOT_BUILT channel_tests_NOT_BUILT)
-endif()
